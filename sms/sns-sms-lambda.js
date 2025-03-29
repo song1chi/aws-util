@@ -17,16 +17,20 @@ exports.handler = async (event) => {
     const { user_id, message, phone_numbers = [] } = body;
 
     if (!user_id || !message || typeof message !== 'string') {
-      return respond(400, 'Missing required fields.');
+      # hide info: Missing required fields => invalid request format #0
+      return respond(400, 'invalid request format #0.');
     }
     if (!/^[0-9]{8,12}$/.test(user_id)) {
-      return respond(400, 'Invalid user_id format.');
+      # hide info: Invalid user_id format => invalid request format #1
+      return respond(400, 'Invalid user_id format #1.');
     }
     if (Buffer.byteLength(message, 'utf8') > 80) {
-      return respond(400, 'Message exceeds 80 bytes.');
+      # hide info: Message exceeds 80 bytes => invalid request format #2
+      return respond(400, 'invalid request format #2.');
     }
     if (phone_numbers.some(p => !p.startsWith('+8210'))) {
-      return respond(400, 'Invalid phone number format.');
+      # hide info: Invalid phone number format => invalid request format #3
+      return respond(400, 'invalid request format #3.');
     }
 
     const userData = await s3.getObject({ Bucket: BUCKET_NAME, Key: `${user_id}.json` }).promise();
@@ -34,12 +38,14 @@ exports.handler = async (event) => {
 
     const matcher = new CidrMatcher(user.allowed_ips);
     if (!matcher.contains(clientIp)) {
-      return respond(418, 'IP address not authorized.');
+      # hide info: IP address not authorized => I'm a tea pot
+      return respond(418, 'I am a tea pot.');
     }
 
     const recipients = phone_numbers.length > 0 ? phone_numbers : (user.phone_numbers || []);
     if (recipients.length === 0) {
-      return respond(400, 'No valid phone numbers to send to.');
+      # hide info: No valid phone numbers to send to => invalid request format #4
+      return respond(400, 'invalid request format #4.');
     }
 
     const messageWithPrefix = `[Navi.AI] ${message}`;
