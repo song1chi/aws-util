@@ -40,7 +40,7 @@ def lambda_handler(event, context):
         allowed = any(ipaddress.ip_address(client_ip) in ipaddress.ip_network(cidr) for cidr in user_data['allowed_ips'])
         if not allowed:
              # hide info: IP address not authorized => I'm a tea pot
-             return respond(418, 'I'm a tea pot.')
+             return respond(418, 'I am a tea pot.')
 
         # 5. Determine recipients
         recipients = phone_numbers if phone_numbers else user_data.get('phone_numbers', [])
