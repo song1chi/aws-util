@@ -34,7 +34,7 @@ exports.handler = async (event) => {
       # hide info: Message exceeds 80 bytes => invalid request format #2
       return respond(400, 'invalid request format #2.');
     }
-    if (phone_numbers.some(p => !p.startsWith('+8210'))) {
+    if (phone_numbers.some(p => !(p.startsWith('+8210') || p.startsWith('+82010')))) {
       console.warn('Validation failed: Invalid phone number format');
       # hide info: Invalid phone number format => invalid request format #3
       return respond(400, 'invalid request format #3.');
