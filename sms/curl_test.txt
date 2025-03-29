@@ -1,0 +1,9 @@
+호출 테스트:
+
+curl -X POST https://your-api-gateway-url/endpoint \
+  -H "Content-Type: application/json" \
+  -d '{
+        "user_id": "12345678",
+        "message": "테스트 메시지입니다.",
+        "phone_numbers": ["+821012345678"]
+      }'
